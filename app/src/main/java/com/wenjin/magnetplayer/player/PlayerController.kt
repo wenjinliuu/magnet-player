@@ -57,7 +57,11 @@ data class PlaybackUi(
 
 data class TorrentUi(
   val downloadSpeed: Double = 0.0,
+  /** TorrServer 发现的节点总数 */
   val peers: Int = 0,
+  /** 真正连上的节点数、其中做种的节点数 */
+  val activePeers: Int = 0,
+  val seeders: Int = 0,
   val cacheFilled: Long = 0,
   val cacheCapacity: Long = 0,
   /** 已下载片段，按文件进度 0..1 表示 */
@@ -219,6 +223,8 @@ class PlayerController(
         it.copy(
           downloadSpeed = status?.downloadSpeed ?: it.downloadSpeed,
           peers = status?.totalPeers ?: it.peers,
+          activePeers = status?.activePeers ?: it.activePeers,
+          seeders = status?.connectedSeeders ?: it.seeders,
           cacheFilled = cache?.filled ?: it.cacheFilled,
           cacheCapacity = cache?.capacity ?: it.cacheCapacity,
           downloaded = ranges ?: it.downloaded,

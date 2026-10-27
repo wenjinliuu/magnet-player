@@ -125,6 +125,14 @@ class TorrServerManager(
       "EnableRutorSearch" to JsonPrimitive(false),
       "EnableTorznabSearch" to JsonPrimitive(false),
       "ResponsiveMode" to JsonPrimitive(true),
+      // 下载速度相关（见 server/torr/btserver.go configure）：
+      // 每个种子最多连接的节点数，TorrServer 默认 25，太少
+      "ConnectionsLimit" to JsonPrimitive(CONNECTIONS_LIMIT),
+      // 打开 IPv6：国内家庭宽带普遍有公网 IPv6，很多节点只能通过 IPv6 连上
+      "EnableIPv6" to JsonPrimitive(true),
+      // 每个种子都追加内置 tracker，国内拉不到 GitHub 上的列表时也有足够的 tracker 找节点
+      "RetrackersMode" to JsonPrimitive(1),
+      "DefaultTrackers" to JsonPrimitive(Trackers.text),
     )
     val changed = wanted.any { (k, v) -> current[k]?.toString() != v.toString() }
     if (changed) {
@@ -163,5 +171,7 @@ class TorrServerManager(
 
     /** 不用 TorrServer 默认的 8090，避免和平板上另装的 TorrServe 冲突 */
     const val PORT = 18090
+
+    const val CONNECTIONS_LIMIT = 100
   }
 }

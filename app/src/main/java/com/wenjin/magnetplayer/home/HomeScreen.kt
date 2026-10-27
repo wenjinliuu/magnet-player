@@ -209,7 +209,7 @@ fun ResolveCard(
     when (state) {
       is ResolveUi.Ready -> ReadyContent(state, onPlay, Modifier.weight(1f))
       is ResolveUi.Loading -> CenterHint(
-        if (state.peers > 0) "已连接 ${state.peers} 个节点，正在获取文件列表…" else "正在连接节点，获取文件列表…",
+        if (state.peers > 0) "已发现 ${state.peers} 个节点，正在获取文件列表…" else "正在连接节点，获取文件列表…",
         Modifier.weight(1f),
       )
       is ResolveUi.Failed -> CenterHint(state.message, Modifier.weight(1f))

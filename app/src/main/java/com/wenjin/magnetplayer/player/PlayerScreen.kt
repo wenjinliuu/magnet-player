@@ -319,7 +319,7 @@ private fun BoxScope.TopBar(
     if (info.hash != null) {
       Row(horizontalArrangement = Arrangement.spacedBy(18.dp), verticalAlignment = Alignment.CenterVertically) {
         Status(MagnetIcons.Download, Format.speed(torrent.downloadSpeed), PlayerColors.Download)
-        Status(MagnetIcons.Peers, "${torrent.peers} 节点", PlayerColors.Peers)
+        Status(MagnetIcons.Peers, "${torrent.activePeers}/${torrent.peers} 节点", PlayerColors.Peers)
         Status(
           MagnetIcons.Cache,
           "缓冲 ${torrent.cacheFilled / MB} / ${torrent.cacheCapacity / MB} MB",
@@ -771,7 +771,8 @@ private fun PlayerDialogs(
       Info("种子：" + info.torrentTitle.ifBlank { "未知" })
       info.hash?.let { Info("InfoHash：$it") }
       Info("文件：${info.title}（${Format.size(info.fileLength)}）")
-      Info("下载速度：${Format.speed(torrent.downloadSpeed)} · ${torrent.peers} 个节点")
+      Info("下载速度：${Format.speed(torrent.downloadSpeed)}")
+      Info("节点：已连接 ${torrent.activePeers} 个（其中做种 ${torrent.seeders} 个），共发现 ${torrent.peers} 个")
       Info("内存缓存：${Format.size(torrent.cacheFilled)} / ${Format.size(torrent.cacheCapacity)}")
     }
   }
