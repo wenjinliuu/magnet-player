@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>磁力播放器 设计稿</title>
+<style>
+  :root { --bg: #F6F7F9; --text: #14161B; --muted: #5F6571; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0B0C0F; --text: #F2F3F5; --muted: #9AA0AB; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, "PingFang SC", "MiSans", sans-serif; }
+  main { max-width: 1340px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  p { color: var(--muted); margin: 0 0 28px; }
+  section { margin-bottom: 40px; }
+  h2 { font-size: 18px; margin: 0 0 12px; }
+  .frame { width: 100%; aspect-ratio: 1280 / 800; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.12); background: #000; }
+  iframe { width: 1280px; height: 800px; border: 0; transform-origin: 0 0; }
+  a { color: #2F6BFF; }
+</style>
+</head>
+<body>
+<main>
+<h1>磁力播放器 · 界面设计稿</h1>
+<p>画布尺寸 1280×800，对应小米平板横屏的 dp 尺寸（1px = 1dp）。规范见 <a href="../UI_SPEC.md">docs/UI_SPEC.md</a>。</p>
+<section><h2>首页 · 浅色（纯白）</h2><div class="frame"><iframe src="home-light.html" title="首页 浅色"></iframe></div></section>
+<section><h2>首页 · 深色</h2><div class="frame"><iframe src="home-dark.html" title="首页 深色"></iframe></div></section>
+<section><h2>播放 · 控件显示（沉浸式）</h2><div class="frame"><iframe src="player-controls.html" title="播放 控件显示"></iframe></div></section>
+<section><h2>播放 · 字幕面板</h2><div class="frame"><iframe src="player-subtitles.html" title="播放 字幕面板"></iframe></div></section>
+</main>
+<script>
+  function fit() {
+    document.querySelectorAll('.frame').forEach(function (f) {
+      var s = f.clientWidth / 1280;
+      f.querySelector('iframe').style.transform = 'scale(' + s + ')';
+    });
+  }
+  window.addEventListener('resize', fit);
+  fit();
+</script>
+</body>
+</html>
