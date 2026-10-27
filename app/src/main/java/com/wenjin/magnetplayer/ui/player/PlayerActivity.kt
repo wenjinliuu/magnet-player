@@ -117,6 +117,7 @@ class PlayerActivity :
    * Preferences for player settings.
    */
   private val playerPreferences: PlayerPreferences by inject()
+  private val torrentRepository: com.wenjin.magnetplayer.torrent.TorrentRepository by inject()
 
   /**
    * Preferences for audio settings.
@@ -573,6 +574,11 @@ class PlayerActivity :
     runCatching {
       // OPTIMIZATION: Prevent any further UI updates or callbacks
       isReady = false
+
+      // 关闭播放页：按"看完自动清空"设置移除种子
+      if (isUserFinishing || isFinishing) {
+        intent.getStringExtra(com.wenjin.magnetplayer.player.PlayerLauncher.EXTRA_TORRENT_HASH)?.let(torrentRepository::onPlaybackClosedAsync)
+      }
 
       // Only stop the service if we're not doing manual background playback
       if ((isUserFinishing || isFinishing) && !isManualBackgroundPlayback) {

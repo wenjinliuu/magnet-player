@@ -34,6 +34,7 @@ class App : Application() {
         DatabaseModule,
         FileManagerModule,
         com.wenjin.magnetplayer.di.domainModule,
+        com.wenjin.magnetplayer.di.TorrentModule,
       )
     }
 

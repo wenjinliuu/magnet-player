@@ -34,6 +34,9 @@ jobs:
       - name: 配置 Gradle 缓存
         uses: gradle/actions/setup-gradle@v4
 
+      - name: 下载并校验 TorrServer
+        run: ./scripts/fetch-torrserver.sh
+
       - name: 准备签名证书
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}

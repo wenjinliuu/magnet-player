@@ -101,7 +101,9 @@ android {
       excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
     }
     jniLibs {
+      // 解压到 nativeLibraryDir，TorrServer 才能作为可执行文件运行
       useLegacyPackaging = true
+      keepDebugSymbols += "**/libtorrserver.so"
     }
   }
 
@@ -184,6 +186,17 @@ dependencies {
   implementation(libs.lazycolumnscrollbar)
   implementation(libs.reorderable)
 }
+
+// TorrServer 二进制由 scripts/fetch-torrserver.sh 下载，缺失时直接报错，避免打出不能播放磁力的 APK
+val checkTorrServer by tasks.registering {
+  val so = file("src/main/jniLibs/arm64-v8a/libtorrserver.so")
+  doLast {
+    if (!so.exists()) {
+      throw GradleException("缺少 ${so.path}，请先运行 scripts/fetch-torrserver.sh")
+    }
+  }
+}
+tasks.named("preBuild") { dependsOn(checkTorrServer) }
 
 /* ---------------- Git helpers ---------------- */
 
