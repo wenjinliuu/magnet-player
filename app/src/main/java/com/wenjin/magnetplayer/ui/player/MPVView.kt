@@ -12,8 +12,7 @@ import com.wenjin.magnetplayer.preferences.DecoderPreferences
 import com.wenjin.magnetplayer.preferences.PlayerPreferences
 import com.wenjin.magnetplayer.preferences.SubtitlesPreferences
 import com.wenjin.magnetplayer.domain.anime4k.Anime4KManager
-import com.wenjin.magnetplayer.ui.player.PlayerActivity.Companion.TAG
-import com.wenjin.magnetplayer.ui.player.controls.components.panels.toColorHexString
+
 import `is`.xyz.mpv.BaseMPVView
 import `is`.xyz.mpv.keyMapping
 import `is`.xyz.mpv.MPVLib
@@ -387,3 +386,5 @@ class MPVView(
     }
   }
 }
+
+private fun Int.toColorHexString() = "#" + this.toHexString().uppercase()

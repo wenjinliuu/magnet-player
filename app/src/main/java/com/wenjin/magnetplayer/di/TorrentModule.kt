@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.wenjin.magnetplayer.data.MagnetDatabase
 import com.wenjin.magnetplayer.data.RecentRepository
 import com.wenjin.magnetplayer.home.HomeViewModel
+import com.wenjin.magnetplayer.player.PlayerUiPreferences
 import com.wenjin.magnetplayer.torrent.TorrServerManager
 import com.wenjin.magnetplayer.torrent.TorrentPreferences
 import com.wenjin.magnetplayer.torrent.TorrentRepository
@@ -15,6 +16,7 @@ val TorrentModule = module {
   single { TorrentPreferences(get()) }
   single { TorrServerManager(androidContext(), get()) }
   single { TorrentRepository(get(), get()) }
+  single { PlayerUiPreferences(get()) }
 
   single { Room.databaseBuilder(androidContext(), MagnetDatabase::class.java, "magnet.db").build() }
   single { get<MagnetDatabase>().recentPlayDao() }

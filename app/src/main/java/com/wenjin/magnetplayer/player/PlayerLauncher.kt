@@ -8,7 +8,6 @@ import com.wenjin.magnetplayer.data.RecentPlay
 import com.wenjin.magnetplayer.torrent.TorrentFile
 import com.wenjin.magnetplayer.torrent.TorrentInfo
 import com.wenjin.magnetplayer.ui.Format
-import com.wenjin.magnetplayer.ui.player.PlayerActivity
 
 /** 一次播放请求：种子、文件、流地址和起始位置 */
 data class PlayRequest(
@@ -28,7 +27,7 @@ object PlayerLauncher {
   const val EXTRA_START = "start_position"
 
   fun play(context: Context, request: PlayRequest) {
-    val intent = Intent(context, PlayerActivity::class.java)
+    val intent = Intent(context, TorrentPlayerActivity::class.java)
       .setAction(Intent.ACTION_VIEW)
       .setData(request.url.toUri())
       .putExtra("title", Format.title(request.file.name))

@@ -4,4 +4,8 @@
     <style name="Theme.mpvex" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+    <!-- 播放页：黑色背景，避免进入时闪白 -->
+    <style name="Theme.MagnetPlayer.Player" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
 </resources>

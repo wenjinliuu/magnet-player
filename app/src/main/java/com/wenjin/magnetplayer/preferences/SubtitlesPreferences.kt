@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.wenjin.magnetplayer.preferences.preference.PreferenceStore
 import com.wenjin.magnetplayer.preferences.preference.getEnum
-import com.wenjin.magnetplayer.ui.player.controls.components.panels.SubtitlesBorderStyle
+import com.wenjin.magnetplayer.ui.player.SubtitlesBorderStyle
 
 class SubtitlesPreferences(
   preferenceStore: PreferenceStore,

@@ -362,3 +362,16 @@ enum class DebandSettings(
     200,
   ),
 }
+
+// 以下两个枚举原定义在 mpvEx 已删除的播放器界面文件里，MPVView 和偏好设置仍在使用
+
+enum class RepeatMode {
+  OFF,
+  ONE,
+  ALL,
+}
+
+enum class SubtitlesBorderStyle(val value: String) {
+  OutlineAndShadow("outline-and-shadow"),
+  OpaqueBox("opaque-box"),
+}

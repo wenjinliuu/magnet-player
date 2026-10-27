@@ -54,6 +54,18 @@ data class CacheState(
   @SerialName("PiecesLength") val piecesLength: Long = 0,
   @SerialName("PiecesCount") val piecesCount: Int = 0,
   @SerialName("Pieces") val pieces: Map<String, CachePiece> = emptyMap(),
+  @SerialName("Readers") val readers: List<CacheReader> = emptyList(),
+  @SerialName("Torrent") val torrent: TorrentStatus? = null,
+) {
+  val torrentSize: Long get() = torrent?.torrentSize ?: 0
+}
+
+/** 正在读取的连接：Reader 是当前读取位置所在的分片序号，Start..End 是预读窗口 */
+@Serializable
+data class CacheReader(
+  @SerialName("Start") val start: Int = 0,
+  @SerialName("End") val end: Int = 0,
+  @SerialName("Reader") val reader: Int = 0,
 )
 
 @Serializable

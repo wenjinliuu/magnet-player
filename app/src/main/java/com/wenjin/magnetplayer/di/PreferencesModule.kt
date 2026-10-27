@@ -1,15 +1,11 @@
 package com.wenjin.magnetplayer.di
 
-import com.wenjin.magnetplayer.database.MpvExDatabase
 import com.wenjin.magnetplayer.preferences.AdvancedPreferences
 import com.wenjin.magnetplayer.preferences.AppearancePreferences
 import com.wenjin.magnetplayer.preferences.AudioPreferences
-import com.wenjin.magnetplayer.preferences.BrowserPreferences
 import com.wenjin.magnetplayer.preferences.DecoderPreferences
-import com.wenjin.magnetplayer.preferences.FoldersPreferences
 import com.wenjin.magnetplayer.preferences.GesturePreferences
 import com.wenjin.magnetplayer.preferences.PlayerPreferences
-import com.wenjin.magnetplayer.preferences.SettingsManager
 import com.wenjin.magnetplayer.preferences.SubtitlesPreferences
 import com.wenjin.magnetplayer.preferences.preference.AndroidPreferenceStore
 import com.wenjin.magnetplayer.preferences.preference.PreferenceStore
@@ -29,7 +25,4 @@ val PreferencesModule =
     singleOf(::SubtitlesPreferences)
     singleOf(::AudioPreferences)
     singleOf(::AdvancedPreferences)
-    single { BrowserPreferences(get(), androidContext()) }
-    singleOf(::FoldersPreferences)
-    singleOf(::SettingsManager)
   }

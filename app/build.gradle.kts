@@ -17,8 +17,9 @@ android {
     applicationId = "com.wenjin.magnetplayer"
     minSdk = 26
     targetSdk = 36
-    versionCode = 1
-    versionName = "0.1.0"
+    // 版本号随提交数递增，保证新包总能覆盖安装
+    versionCode = getCommitCount().toInt()
+    versionName = "0.3.0"
 
     // 只给小米平板（arm64）用
     ndk {
@@ -125,7 +126,6 @@ kotlin {
     freeCompilerArgs.addAll(
       "-Xcontext-parameters",
       "-Xannotation-default-target=param-property",
-      "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
       "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
     )
     jvmTarget.set(JvmTarget.JVM_17)
@@ -150,25 +150,17 @@ dependencies {
   implementation(libs.androidx.compose.material)
   implementation(libs.androidx.ui.tooling.preview)
   debugImplementation(libs.androidx.ui.tooling)
-  implementation(libs.bundles.compose.navigation3)
   implementation(libs.androidx.appcompat)
-  implementation(libs.androidx.compose.constraintlayout)
   implementation("androidx.preference:preference-ktx:1.2.1")
-  implementation("androidx.constraintlayout:constraintlayout:2.2.0")
   implementation(libs.androidx.material3.icons.extended)
   implementation(libs.androidx.compose.animation.graphics)
-  implementation(libs.mediasession)
-  implementation(libs.androidx.documentfile)
   implementation(libs.saveable)
 
   implementation(platform(libs.koin.bom))
   implementation(libs.bundles.koin)
 
-  implementation(libs.seeker)
-  implementation(libs.compose.prefs)
   implementation(libs.aboutlibraries.compose.m3)
 
-  implementation(libs.accompanist.permissions)
 
   implementation(libs.room.runtime)
   ksp(libs.room.compiler)
@@ -178,9 +170,6 @@ dependencies {
   implementation(libs.kotlinx.serialization.json)
   implementation(libs.okhttp)
 
-  implementation(libs.truetype.parser)
-  implementation(libs.fsaf)
-  implementation(libs.mediainfo.lib)
   implementation(libs.mpv.android)
 
   // 本地截图测试（Robolectric 在 JVM 上渲染界面，和设计稿对比），不参与 release 构建
