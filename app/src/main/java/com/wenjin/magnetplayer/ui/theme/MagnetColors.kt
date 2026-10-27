@@ -57,6 +57,9 @@ data class MagnetColors(
 
   fun rotating(index: Int): Accent = rotation[index.mod(rotation.size)]
 
+  /** 文件列表里除第一个视频（蓝色）外的视频图标，顺序与设计稿一致：粉 → 紫 → 绿 → 橙 */
+  fun fileAccent(index: Int): Accent = listOf(pink, purple, green, orange)[index.mod(4)]
+
   companion object {
     /** 主操作色，两种主题相同 */
     val Primary = Color(0xFF2F6BFF)

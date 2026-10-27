@@ -83,7 +83,6 @@ fun HomeLeftColumn(
         Modifier.padding(top = 6.dp),
         color = c.onBackground,
         fontSize = 32.sp,
-        lineHeight = 40.sp,
         fontWeight = FontWeight.Bold,
         letterSpacing = (-0.02).em,
       )
@@ -284,7 +283,7 @@ private fun ReadyContent(
       val firstVideo = info.videos.firstOrNull()
       var rotation = 0
       info.videos.forEach { file ->
-        val accent = if (file == firstVideo) c.blue else c.rotating(rotation++)
+        val accent = if (file == firstVideo) c.blue else c.fileAccent(rotation++)
         FileRow(
           file = file,
           icon = MagnetIcons.VideoFile,

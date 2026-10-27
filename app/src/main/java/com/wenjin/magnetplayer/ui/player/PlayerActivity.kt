@@ -118,6 +118,16 @@ class PlayerActivity :
    */
   private val playerPreferences: PlayerPreferences by inject()
   private val torrentRepository: com.wenjin.magnetplayer.torrent.TorrentRepository by inject()
+  private val recentRepository: com.wenjin.magnetplayer.data.RecentRepository by inject()
+
+  /** 保存磁力视频的播放进度到"最近播放" */
+  private fun saveTorrentProgress() {
+    if (!mpvInitialized) return
+    val pos = runCatching { MPVLib.getPropertyDouble("time-pos") }.getOrNull() ?: return
+    val duration = runCatching { MPVLib.getPropertyDouble("duration") }.getOrNull() ?: 0.0
+    com.wenjin.magnetplayer.player.PlayerLauncher.recentFrom(intent.extras, pos, duration)
+      ?.let(recentRepository::saveAsync)
+  }
 
   /**
    * Preferences for audio settings.
@@ -411,6 +421,10 @@ class PlayerActivity :
       return
     }
 
+    // 从最近播放继续：从上次的位置开始
+    intent.getDoubleExtra(com.wenjin.magnetplayer.player.PlayerLauncher.EXTRA_START, 0.0)
+      .takeIf { it > 1 }
+      ?.let { MPVLib.setOptionString("start", it.toString()) }
     getPlayableUri(intent)?.let(player::playFile)
 
     // Only set orientation immediately if NOT in Video mode
@@ -575,7 +589,8 @@ class PlayerActivity :
       // OPTIMIZATION: Prevent any further UI updates or callbacks
       isReady = false
 
-      // 关闭播放页：按"看完自动清空"设置移除种子
+      // 关闭播放页：保存进度，按"看完自动清空"设置移除种子
+      saveTorrentProgress()
       if (isUserFinishing || isFinishing) {
         intent.getStringExtra(com.wenjin.magnetplayer.player.PlayerLauncher.EXTRA_TORRENT_HASH)?.let(torrentRepository::onPlaybackClosedAsync)
       }
@@ -679,6 +694,8 @@ class PlayerActivity :
       val isInPip = isInPictureInPictureMode
       val shouldPause = (!audioPreferences.automaticBackgroundPlayback.get() && !isManualBackgroundPlayback) || 
                         (isUserFinishing && !isManualBackgroundPlayback)
+
+      saveTorrentProgress()
 
       // Save playback state before stopping MPV or finishing
       // When finishing, do it synchronously so database is updated before MainActivity resumes

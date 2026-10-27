@@ -107,6 +107,13 @@ android {
     }
   }
 
+  testOptions {
+    unitTests.isIncludeAndroidResources = true
+    unitTests.all {
+      it.jvmArgs("--add-exports=java.base/jdk.internal.access=ALL-UNNAMED", "--add-opens=java.base/java.io=ALL-UNNAMED")
+    }
+  }
+
   @Suppress("UnstableApiUsage")
   androidResources {
     generateLocaleConfig = true
@@ -176,15 +183,12 @@ dependencies {
   implementation(libs.mediainfo.lib)
   implementation(libs.mpv.android)
 
-  // Network protocol libraries
-  implementation(libs.smbj)
-  implementation(libs.commons.net)
-  implementation(libs.sardine.android) {
-    exclude(group = "xpp3", module = "xpp3")
-  }
-  implementation(libs.nanohttpd)
-  implementation(libs.lazycolumnscrollbar)
-  implementation(libs.reorderable)
+  // 本地截图测试（Robolectric 在 JVM 上渲染界面，和设计稿对比），不参与 release 构建
+  testImplementation("junit:junit:4.13.2")
+  testImplementation("org.robolectric:robolectric:4.17")
+  testImplementation("androidx.compose.ui:ui-test-junit4")
+  debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }
 
 // TorrServer 二进制由 scripts/fetch-torrserver.sh 下载，缺失时直接报错，避免打出不能播放磁力的 APK

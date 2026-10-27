@@ -106,6 +106,9 @@ class TorrServerApi(
     return post("/torrents", body)?.let { json.decodeFromString<TorrentStatus>(it) }
   }
 
+  suspend fun list(): List<TorrentStatus> =
+    post("/torrents", buildJsonObject { put("action", "list") })?.let { json.decodeFromString(it) } ?: emptyList()
+
   /** 关闭种子，释放连接和内存缓存（种子记录保留在列表里） */
   suspend fun drop(hash: String) {
     post("/torrents", buildJsonObject { put("action", "drop"); put("hash", hash) })

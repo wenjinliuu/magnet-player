@@ -103,6 +103,12 @@ class TorrentRepository(
     scope.launch { onPlaybackClosed(hash) }
   }
 
+  /** 缓存页：TorrServer 里当前的种子及各自占用的内存缓存 */
+  suspend fun activeTorrents(): List<Pair<TorrentStatus, Long>> = runCatching {
+    val api = manager.ensureRunning()
+    api.list().map { it to (api.cache(it.hash)?.filled ?: 0L) }
+  }.getOrDefault(emptyList())
+
   /** 立即清空全部缓存 */
   suspend fun clearAll() {
     runCatching { manager.ensureRunning().wipe() }

@@ -1,13 +1,18 @@
 package com.wenjin.magnetplayer.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.wenjin.magnetplayer.preferences.AppearancePreferences
 import com.wenjin.magnetplayer.preferences.preference.collectAsState
 import org.koin.compose.koinInject
@@ -29,7 +34,9 @@ fun MagnetTheme(content: @Composable () -> Unit) {
 fun MagnetTheme(dark: Boolean, content: @Composable () -> Unit) {
   val colors = if (dark) MagnetColors.Dark else MagnetColors.Light
   CompositionLocalProvider(LocalMagnetColors provides colors) {
-    MaterialTheme(colorScheme = colors.toColorScheme(), content = content)
+    MaterialTheme(colorScheme = colors.toColorScheme()) {
+      ProvideTextStyle(LocalTextStyle.current.merge(DesignTextStyle), content)
+    }
   }
 }
 
@@ -94,6 +101,16 @@ object MagnetTheme {
   val colors: MagnetColors
     @Composable get() = LocalMagnetColors.current
 }
+
+/**
+ * 设计稿按浏览器默认排版：不加字间距；行高取 Noto Sans SC 的默认行高（约 1.45 倍字号），
+ * 这样无论系统字体（小米上是 MiSans）的度量如何，行距都和设计稿一致。
+ */
+val DesignTextStyle = TextStyle(
+  letterSpacing = 0.sp,
+  lineHeight = 1.45.em,
+  lineHeightStyle = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None),
+)
 
 /** 数字用等宽（tnum） */
 val TabularNums = TextStyle(fontFeatureSettings = "tnum")

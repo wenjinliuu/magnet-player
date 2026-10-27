@@ -91,7 +91,7 @@ fun PlayerSheets(
       var showFilePicker by remember { mutableStateOf(false) }
 
       if (showFilePicker) {
-          com.wenjin.magnetplayer.ui.browser.dialogs.FilePickerDialog(
+          FilePickerDialog(
               isOpen = true,
               currentPath = savedPickerPath.ifBlank { android.os.Environment.getExternalStorageDirectory().absolutePath },
               onDismiss = { showFilePicker = false },
@@ -292,4 +292,19 @@ fun PlayerSheets(
       }
     }
   }
+}
+
+/** 原 mpvEx 的应用内文件浏览器已移除，直接改用系统文件选择器 */
+@Suppress("UNUSED_PARAMETER")
+@Composable
+private fun FilePickerDialog(
+  isOpen: Boolean,
+  currentPath: String,
+  onDismiss: () -> Unit,
+  onPathChanged: (String?) -> Unit,
+  onFileSelected: (String) -> Unit,
+  onSystemPickerRequest: () -> Unit,
+  matchToName: String?,
+) {
+  LaunchedEffect(Unit) { onSystemPickerRequest() }
 }

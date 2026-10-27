@@ -501,12 +501,6 @@ val DatabaseModule =
     }
 
     single {
-      com.wenjin.magnetplayer.repository.NetworkRepository(
-        dao = get(),
-      )
-    }
-
-    single {
       PlaylistRepository(
         playlistDao = get<MpvExDatabase>().playlistDao(),
       )
